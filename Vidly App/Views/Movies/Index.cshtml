@@ -1,0 +1,164 @@
+﻿@model IEnumerable<Vidly_App.Models.Movies>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@Html.ActionLink("New Movie", "create", null, new { @class = "btn btn-primary" })
+<table id="movie" class="table table-responsive table-bordered">
+    <thead>
+        <tr>
+            <th>movies</th>
+            <th>Genre</th>
+        </tr>
+
+    </thead>
+    <tbody>
+
+        @*without taking input from ajax dataTable*@
+        @*@foreach (var movies in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.ActionLink(movies.MovieTitle, "Edit", "Movies", new { id = movies.Id }, null)
+                        </td>
+                        <td>
+                            @movies.Genre.Name
+                        </td>
+                    </tr>
+                }
+            </tbody>*@
+
+</table>
+
+@section scripts{
+
+        <script>
+        @*
+        $(document).ready(function ()
+        {
+            var table = $("#movie").DataTable(
+                {
+                ajax: {
+                    url: "/api/movies",
+                    datasrc: "",
+                },
+                colu
+mns: [
+                    {
+                        data: "movieTitle",
+                        render: function (data, type, movie) {
+                            return "<a href='/api/movie/" + movie.id + "'>" + movie.MovieTitle + "</> ";
+                        }
+                    },
+                    {
+                        data: "genre.name"
+                    },
+                    {
+                        data: "Id",
+                        render: function (data, type, movie) {
+                            return "<button class='js-delete btn-link' id=" + movie.id + "> Delete </button>";
+                        }
+                    }
+
+                ]
+                }
+            )
+
+            $("#movie").on("click", ".js-delete", function (e) {
+                bootbox.confirm({
+                    size: "small",
+                    message: "Are you sure?",
+                    closeButton: true,
+                    buttons: {
+                        confirm: {
+                            label: 'Yes',
+                            className: 'btn-danger'
+                        },
+                        cancel: {
+                            label: 'No',
+                            className: 'btn-success'
+                        }
+                    },
+                    callback: function (result) {
+                        if (result) {
+                            $.ajax({
+                                url: "/api/customers/" + e.target.id,
+                                method: "DELETE",
+                                success: function () {
+                                    table.row(e.target.parentNode.parentNode).remove().draw();
+
+                                }
+                            })
+                        }
+                    }
+                })
+
+
+            })
+        })>*@
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            var table = $("#movie").DataTable({
+                ajax: {
+                    url: "/api/Movie",
+                    dataSrc: "",
+                },
+                columns: [
+                    {
+                        data: "MovieTitle",
+                        render: function (data, type, movie) {
+                            return "<a href='/api/customers/" + movie.Id + "'>" + movie.MovieTitle + "</>";
+                        }
+                    },
+                    {
+                        data: "Genre.name"
+                    },
+                    {
+                        data: "Id",
+                        render: function (data, type, customer) {
+                            return "<button class='btn-link js-delete' id=" + customer.id + "> Delete </button>";
+                        }
+                    }
+                ]
+            });
+            $("#customer").on("click", ".js-delete", function (e) {
+                bootbox.confirm({
+                    size: "small",
+                    message: "Are you sure?",
+                    closeButton: true,
+                    buttons: {
+                        confirm: {
+                            label: 'Yes',
+                            className: 'btn-danger'
+                        },
+                        cancel: {
+                            label: 'No',
+                            className: 'btn-success'
+                        }
+                    },
+                    callback: function (result) {
+                        if (result) {
+                            $.ajax({
+                                url: "/api/customers/" + e.target.id,
+                                method: "DELETE",
+                                success: function () {
+                                    table.row(e.target.parentNode.parentNode).remove().draw();
+
+                                }
+                            })
+                        }
+                    }
+                })
+
+
+            })
+
+        })
+    </script>
+
+}

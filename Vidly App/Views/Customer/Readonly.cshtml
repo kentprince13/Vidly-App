@@ -1,0 +1,95 @@
+﻿@model IEnumerable<Vidly_App.Models.Customer>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+
+<table id="customer" class="table table-responsive table-bordered">
+    <thead>
+        <tr>
+            <th>Customer</th>
+            <th>Discount Name</th>
+          
+        </tr>
+
+    </thead>
+    <tbody>
+        @*without using datatables
+
+        @foreach (var customer in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(customer.Name, "Edit", "Customer", new { id = customer.Id }, null)
+                </td>
+                <td>
+                    @customer.MembershipType.Name
+                </td>
+                <td>
+                    <button class="btn-link js-delete" id=@customer.Id>delete</button>
+                </td>
+            </tr>
+        }*@
+    </tbody>
+
+</table>
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var table = $("#customer").DataTable({
+                ajax: {
+                    url: "/api/customers/",
+                    dataSrc: "",
+                },
+                columns: [
+                    {
+                        data: "name",
+                       
+                    },
+                    {
+                        data: "membershipType.name"
+                    }
+                    
+                ]
+            });
+            $("#customer").on("click", ".js-delete", function (e) {
+                bootbox.confirm({
+                    size: "small",
+                    message: "Are you sure?",
+                    closeButton: true,
+                    buttons: {
+                        confirm: {
+                            label: 'Yes',
+                            className: 'btn-danger'
+                        },
+                        cancel: {
+                            label: 'No',
+                            className: 'btn-success'
+                        }
+                    },
+                    callback: function (result) {
+                        if (result) {
+                            $.ajax({
+                                url: "/api/customers/" + e.target.id,
+                                method: "DELETE",
+                                success: function () {
+                                    table.row(e.target.parentNode.parentNode).remove().draw();
+                                   
+                                }
+                            })
+                        }
+                    }
+                })
+
+
+            })
+
+        })
+    </script>
+}
+
