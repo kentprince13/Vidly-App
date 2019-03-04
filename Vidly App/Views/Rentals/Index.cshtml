@@ -30,6 +30,7 @@
    
 
     <input type="submit" class="btn btn-primary" value="Submit" />
+   
 </form>
 
 
@@ -37,7 +38,7 @@
     <script>
         $(document).ready(function () {
             var vm = {
-                movieids: []
+                MoviesId: []
                 };
             var customers = new Bloodhound({
                 datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
@@ -58,7 +59,7 @@
                     name: 'customers',
                     display: 'name',
                     source: customers
-            }).on("typeahead:selector", function (e, customer) {
+            }).on("typeahead:select", function (e, customer) {
                     vm.customerId = customer.id
             });
 
@@ -83,7 +84,7 @@
                 }).on("typeahead:select", function (e, movie) {
                     $("#mylist").append("<li class='list-group-item'>" + movie.movieTitle + "</li>");
                     $("#movie").typeahead("val", "");
-                    vm.movieids.push(movie.id)
+                    vm.MoviesId.push(movie.id)
                          
                 });
 
@@ -94,8 +95,10 @@
                     method: "POST",
                     data: vm,
                     success: function () {
-                        console.log("done")
+                        toastr.success("Record Successfully Added");
+                        $("#mylist").val("");
                     }
+                   
                 })
             })
 

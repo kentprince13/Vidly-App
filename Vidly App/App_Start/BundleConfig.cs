@@ -12,6 +12,7 @@ namespace Vidly_App
                         "~/Scripts/jquery-{version}.js",
                         "~/Scripts/bootstrap.js",
                        "~/Scripts/bootbox.js",
+                       "~/Scripts/toastr.js",
                        "~/scripts/DataTables/jquery.dataTables.js",
                        "~/scripts/typeahead.bundle.js",
                         "~/scripts/DataTables/dataTables.bootstrap.js"
@@ -29,6 +30,7 @@ namespace Vidly_App
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
                       "~/Content/typeahead.css",
+                       "~/Content/toastr.css",
                       "~/Content/DataTables/css/dataTables.bootstrap.css"));
         }
     }
